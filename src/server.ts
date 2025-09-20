@@ -1,31 +1,56 @@
-import dotenv from "dotenv";
-
 // Load environment variables FIRST, before importing any other modules
+import dotenv from "dotenv";
 dotenv.config();
 
-console.log(
-  ".env variables loaded?",
-  process.env.TRELLO_API_TOKEN,
-  process.env.TRELLO_SECRET
+import {
+  McpServer,
+  ResourceTemplate,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+// Create an MCP server
+const server = new McpServer({
+  name: "demo-server",
+  version: "1.0.0",
+});
+
+// Add an addition tool
+server.registerTool(
+  "add",
+  {
+    title: "Addition Tool",
+    description: "Add two numbers",
+    inputSchema: { a: z.number(), b: z.number() },
+  },
+  async ({ a, b }) => ({
+    content: [{ type: "text", text: String(a + b) }],
+  })
 );
 
-import { boardService } from "./services/board.service";
-import { listService } from "./services/list.service";
+// Add a dynamic greeting resource
+server.registerResource(
+  "greeting",
+  new ResourceTemplate("greeting://{name}", { list: undefined }),
+  {
+    title: "Greeting Resource", // Display name for UI
+    description: "Dynamic greeting generator",
+  },
+  async (uri, { name }) => ({
+    contents: [
+      {
+        uri: uri.href,
+        text: `Hello, ${name}!`,
+      },
+    ],
+  })
+);
 
 async function main() {
-  const boards: any = await boardService.getBoards();
-  console.log(
-    boards.map((board: any) => {
-      return {
-        id: board.id,
-        name: board.name,
-      };
-    })
-  );
-  const board = await boardService.getBoardById("61ab910a87599f0b1e59abf0");
-  // console.log(board);
-  const lists = await listService.getBoardLists("61ab910a87599f0b1e59abf0");
-  console.log(lists);
+  // Start receiving messages on stdin and sending messages on stdout
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.log("🚀 Server started...");
 }
 
-main().catch(console.error);
+main();
