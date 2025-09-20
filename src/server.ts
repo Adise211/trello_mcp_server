@@ -9,10 +9,11 @@ console.log(
   process.env.TRELLO_SECRET
 );
 
-import { getBoardById, getBoards } from "./services/boards.service";
+import { boardService } from "./services/board.service";
+import { listService } from "./services/list.service";
 
 async function main() {
-  const boards: any = await getBoards();
+  const boards: any = await boardService.getBoards();
   console.log(
     boards.map((board: any) => {
       return {
@@ -21,8 +22,10 @@ async function main() {
       };
     })
   );
-  const board = await getBoardById("61ab910a87599f0b1e59abf0");
-  console.log(board);
+  const board = await boardService.getBoardById("61ab910a87599f0b1e59abf0");
+  // console.log(board);
+  const lists = await listService.getBoardLists("61ab910a87599f0b1e59abf0");
+  console.log(lists);
 }
 
 main().catch(console.error);
