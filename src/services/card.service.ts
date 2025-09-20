@@ -1,4 +1,4 @@
-import { CardLabel, cardSchema } from "../schema/card.schema";
+import { CardLabel, cardSchema, updateCardSchema } from "../schema/card.schema";
 
 const TRELLO_BASE_URL = "https://api.trello.com/1";
 
@@ -88,7 +88,8 @@ export const updateCard = async (
   cardDueDate: string,
   labels: CardLabel[]
 ): Promise<any> => {
-  const card = cardSchema.parse({
+  const card = updateCardSchema.parse({
+    id: cardId,
     name: cardName,
     description: cardDescription,
     dueDate: cardDueDate,
@@ -104,6 +105,60 @@ export const updateCard = async (
 };
 
 /**
+ * Add a comment to a card
+ * @param cardId - The ID of the card to add a comment to
+ * @param comment - The comment to add to the card
+ * @returns {Promise<any>} - A promise that resolves to the added comment
+ */
+export const addCommentToCard = async (
+  cardId: string,
+  comment: string
+): Promise<any> => {
+  const response = await fetch(
+    `${TRELLO_BASE_URL}/cards/${cardId}/actions/comments?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ text: comment }),
+    }
+  );
+  return response.json();
+};
+
+/**
+ * Add an attachment to a card
+ * @param cardId - The ID of the card to add an attachment to
+ * @param attachment - The attachment to add to the card
+ * @returns {Promise<any>} - A promise that resolves to the added attachment
+ */
+export const addAttachmentToCard = async (
+  cardId: string,
+  attachment: File
+): Promise<any> => {
+  const response = await fetch(
+    `${TRELLO_BASE_URL}/cards/${cardId}/attachments?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+    {
+      method: "POST",
+      body: attachment,
+    }
+  );
+  return response.json();
+};
+
+export const moveCardToList = async (
+  cardId: string,
+  listId: string
+): Promise<any> => {
+  const response = await fetch(
+    `${TRELLO_BASE_URL}/cards/${cardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+    {
+      method: "PUT",
+      body: JSON.stringify({ listId }),
+    }
+  );
+  return response.json();
+};
+
+/**
  * Delete a card
  * @param cardId - The ID of the card to delete
  * @returns {Promise<any>} - A promise that resolves to the deleted card
@@ -116,5 +171,8 @@ export const cardService = {
   getCardLabels,
   createCard,
   updateCard,
+  addCommentToCard,
+  addAttachmentToCard,
+  moveCardToList,
   deleteCard,
 };

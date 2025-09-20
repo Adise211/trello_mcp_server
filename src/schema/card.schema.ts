@@ -27,5 +27,13 @@ export const cardSchema = z.object({
   labels: z.array(cardLabelSchema).describe("The labels of the card"),
 });
 
+export const createCardSchema = cardSchema.extend({
+  listId: z.string().describe("The id of the list to create the card"),
+});
+
+export const updateCardSchema = cardSchema.extend({
+  id: z.string().describe("The id of the card to update"),
+});
+
 export type Card = z.infer<typeof cardSchema>;
 export type CardLabel = z.infer<typeof cardLabelSchema>;

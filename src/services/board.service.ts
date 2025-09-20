@@ -48,9 +48,17 @@ export const createBoard = async (boardName: string): Promise<any> => {
   );
 };
 
+export const getListsByBoardId = async (boardName: string): Promise<any> => {
+  const response = await fetch(
+    `${TRELLO_BASE_URL}/boards/${boardName}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+  );
+  return response.json();
+};
+
 export const boardService = {
   getBoards,
   getBoardById,
   getBoardByName,
   createBoard,
+  getListsByBoardId,
 };

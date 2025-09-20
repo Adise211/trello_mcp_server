@@ -91,6 +91,18 @@ export const deleteList = async (listId: string): Promise<any> => {
   return response.json();
 };
 
+/**
+ * Get all cards for a list
+ * @param listId - The id of the list to get cards for
+ * @returns {Promise<any>} - A promise that resolves to an array of cards
+ */
+export const getCardsByListId = async (listId: string): Promise<any> => {
+  const response = await fetch(
+    `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+  );
+  return response.json();
+};
+
 export const listService = {
   getBoardLists,
   getListById,
@@ -98,4 +110,5 @@ export const listService = {
   updateList,
   deleteList,
   getListCards,
+  getCardsByListId,
 };
