@@ -283,6 +283,29 @@ export const deleteCard = async (cardId: string): Promise<any> => {
   }
 };
 
+/**
+ * Get all cards for a board
+ * @param boardId - The ID of the board to get cards for
+ * @returns {Promise<any>} - A promise that resolves to an array of cards
+ */
+export const getCardsByBoardId = async (boardId: string): Promise<any> => {
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/boards/${boardId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
+};
+
 export const cardService = {
   getCardById,
   getListCards,
@@ -293,4 +316,5 @@ export const cardService = {
   addAttachmentToCard,
   moveCardToList,
   deleteCard,
+  getCardsByBoardId,
 };

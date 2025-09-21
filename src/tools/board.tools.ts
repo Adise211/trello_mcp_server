@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { boardService } from "../services/board.service";
-import { listService } from "../services/list.service";
-import { logger } from "../utils/logger";
+import { cardService } from "../services/card.service";
 
 export const getBoardsTool = {
   name: "get-boards",
@@ -107,6 +106,12 @@ export const getListsByBoardIdTool = {
   },
 };
 
+/**
+ * Get all cards for a board
+ * @param boardId - The ID of the board to get cards for
+ * @returns {Promise<any>} - A promise that resolves to an array of cards
+ */
+
 export const getCardsByBoardIdTool = {
   name: "get-cards-by-board-id",
   definition: {
@@ -117,20 +122,18 @@ export const getCardsByBoardIdTool = {
     },
   },
   handler: async ({ id }: { id: string }) => {
-    const response = await boardService.getListsByBoardId(id.trim());
+    const response = await cardService.getCardsByBoardId(id.trim());
     // on success, return the data
     if (!response.error) {
-      const cards = response.data.map(async (list: any) => {
-        const listCards = await listService.getCardsByListId(list.id);
-        return listCards.map((card: any) => {
-          return {
-            id: card.id,
-            name: card.name,
-            description: card.desc,
-            url: card.url,
-          };
-        });
+      const cards = response.data.map((card: any) => {
+        return {
+          id: card.id,
+          name: card.name,
+          description: card.desc,
+          url: card.url,
+        };
       });
+
       return {
         content: [{ type: "text", text: JSON.stringify(cards) }],
       };
