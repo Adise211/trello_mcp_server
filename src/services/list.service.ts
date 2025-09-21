@@ -6,10 +6,21 @@ const TRELLO_BASE_URL = "https://api.trello.com/1";
  * @returns {Promise<any>} - A promise that resolves to an array of lists
  */
 export const getBoardLists = async (boardId: string): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/boards/${boardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
-  );
-  return response.json();
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/boards/${boardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -18,10 +29,21 @@ export const getBoardLists = async (boardId: string): Promise<any> => {
  * @returns {Promise<any>} - A promise that resolves to the list
  */
 export const getListById = async (listId: string): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
-  );
-  return response.json();
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -34,14 +56,25 @@ export const createList = async (
   boardId: string,
   listName: string
 ): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/boards/${boardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
-    {
-      method: "POST",
-      body: JSON.stringify({ name: listName }),
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/boards/${boardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ name: listName }),
+      }
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
     }
-  );
-  return response.json();
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -54,14 +87,25 @@ export const updateList = async (
   listId: string,
   listName: string
 ): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
-    {
-      method: "PUT",
-      body: JSON.stringify({ name: listName }),
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ name: listName }),
+      }
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
     }
-  );
-  return response.json();
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -70,10 +114,21 @@ export const updateList = async (
  * @returns {Promise<any>} - A promise that resolves to an array of cards
  */
 export const getListCards = async (listId: string): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
-  );
-  return response.json();
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -82,13 +137,24 @@ export const getListCards = async (listId: string): Promise<any> => {
  * @returns {Promise<any>} - A promise that resolves to the deleted list
  */
 export const deleteList = async (listId: string): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
-    {
-      method: "DELETE",
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/lists/${listId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
     }
-  );
-  return response.json();
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 /**
@@ -97,10 +163,22 @@ export const deleteList = async (listId: string): Promise<any> => {
  * @returns {Promise<any>} - A promise that resolves to an array of cards
  */
 export const getCardsByListId = async (listId: string): Promise<any> => {
-  const response = await fetch(
-    `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
-  );
-  return response.json();
+  try {
+    const response = await fetch(
+      `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      return { error: `HTTP ${response.status}: ${errorText}` };
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    return {
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
+  }
 };
 
 export const listService = {
