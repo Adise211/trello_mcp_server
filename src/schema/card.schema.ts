@@ -23,8 +23,11 @@ export const cardLabelSchema = z.object({
 export const cardSchema = z.object({
   name: z.string().describe("The name of the card"),
   description: z.string().describe("The description of the card"),
-  dueDate: z.string().describe("The due date of the card"),
-  labels: z.array(cardLabelSchema).describe("The labels of the card"),
+  dueDate: z.string().optional().describe("The due date of the card"),
+  labels: z
+    .array(cardLabelSchema)
+    .optional()
+    .describe("The labels of the card"),
 });
 
 export const createCardSchema = cardSchema.extend({
