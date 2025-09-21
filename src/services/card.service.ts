@@ -77,7 +77,7 @@ export const getCardLabels = async (cardId: string): Promise<any> => {
  * @param listId - The ID of the list to create the card on
  * @param name - The name of the card to create
  * @param desc - The description of the card to create
- * @param dueDate - The due date of the card to create
+ * @param due - The due date of the card to create
  * @param labels - The labels of the card to create
  * @returns {Promise<any>} - A promise that resolves to the created card
  */
@@ -85,14 +85,14 @@ export const createCard = async (
   listId: string,
   name: string,
   desc: string,
-  dueDate: string,
+  due: string,
   labels: CardLabel[]
 ): Promise<{ data?: any; error?: string }> => {
   try {
     const card = cardSchema.parse({
       name,
       desc,
-      dueDate,
+      due,
       labels,
     });
     const response = await fetch(
@@ -124,7 +124,7 @@ export const createCard = async (
  * @param cardId - The ID of the card to update
  * @param name - The name of the card to update
  * @param desc - The description of the card to update
- * @param dueDate - The due date of the card to update
+ * @param due - The due date of the card to update
  * @param labels - The labels of the card to update
  * @returns {Promise<any>} - A promise that resolves to the updated card
  */
@@ -132,7 +132,7 @@ export const updateCard = async (
   cardId: string,
   name: string,
   desc: string,
-  dueDate: string,
+  due: string,
   labels: CardLabel[]
 ): Promise<any> => {
   try {
@@ -140,7 +140,7 @@ export const updateCard = async (
       id: cardId,
       name,
       desc,
-      dueDate,
+      due,
       labels,
     });
     const response = await fetch(
