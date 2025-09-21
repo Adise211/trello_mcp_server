@@ -164,10 +164,6 @@ The MCP server enables AI assistants to help with:
 
 **Note**: This MCP server currently provides a limited set of Trello tools. More functionality will be added over time as the project evolves.
 
-## License
-
-MIT License - see LICENSE file for details.
-
 ## Support
 
 For issues and questions:
