@@ -135,19 +135,34 @@ export const updateCard = async (
   due: string
 ): Promise<any> => {
   try {
+    // validate the card
     const card = updateCardSchema.parse({
       id: cardId,
       name,
       desc,
       due,
     });
+    // build the params
+    const params = new URLSearchParams({
+      key: process.env.TRELLO_API_KEY!,
+      token: process.env.TRELLO_TOKEN!,
+      name: card.name,
+      desc: card.desc,
+      ...(card.due && { due: card.due }),
+    });
+
+    // make the request
     const response = await fetch(
-      `${TRELLO_BASE_URL}/cards/${cardId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      `${TRELLO_BASE_URL}/cards/${cardId}?${params.toString()}`,
       {
         method: "PUT",
-        body: JSON.stringify(card),
+        headers: {
+          Accept: "application/x-www-form-urlencoded",
+        },
+        body: params.toString(),
       }
     );
+    // get the data
     const data = await response.json();
     return { data };
   } catch (error) {
