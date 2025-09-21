@@ -10,10 +10,17 @@ export const getListByIdTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await listService.getListById(id.trim());
-    const data = await response;
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-    };
+    // on success, return the data
+    if (!response.error) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };
 
@@ -28,10 +35,16 @@ export const getCardsByListIdTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await listService.getCardsByListId(id.trim());
-    const data = await response;
-
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-    };
+    // on success, return the data
+    if (!response.error) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };

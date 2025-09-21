@@ -52,8 +52,9 @@ export const getBoardById = async (boardId: string): Promise<any> => {
  */
 export const getBoardByName = async (boardName: string): Promise<any> => {
   try {
-    const boards: any = await getBoards();
-    return boards.find((board: any) => board.name === boardName);
+    const response: any = await getBoards();
+    const board = response.data.find((board: any) => board.name === boardName);
+    return { data: board };
   } catch (error) {
     return {
       error: error instanceof Error ? error.message : "Unknown error occurred",

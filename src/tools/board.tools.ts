@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { boardService } from "../services/board.service";
 import { listService } from "../services/list.service";
+import { logger } from "../utils/logger";
 
 export const getBoardsTool = {
   name: "get-boards",
@@ -11,19 +12,25 @@ export const getBoardsTool = {
   },
   handler: async () => {
     const response = await boardService.getBoards();
-    const data = await response;
-    const boardsList = data.map((board: any) => {
+    // on success, return the data
+    if (!response.error) {
+      const boardsList = response.data.map((board: any) => {
+        return {
+          id: board.id,
+          name: board.name,
+          description: board.desc,
+          url: board.url,
+        };
+      });
       return {
-        id: board.id,
-        name: board.name,
-        description: board.desc,
-        url: board.url,
+        content: [{ type: "text", text: JSON.stringify(boardsList) }],
       };
-    });
-
-    return {
-      content: [{ type: "text", text: JSON.stringify(boardsList) }],
-    };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };
 
@@ -36,11 +43,18 @@ export const getBoardByNameTool = {
   },
   handler: async ({ name }: { name: string }) => {
     const response = await boardService.getBoardByName(name.trim());
-    const data = await response;
 
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-    };
+    // on success, return the data
+    if (!response.error) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };
 
@@ -53,11 +67,17 @@ export const getBoardByIdTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await boardService.getBoardById(id.trim());
-    const data = await response;
-
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-    };
+    // on success, return the data
+    if (!response.error) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };
 
@@ -72,11 +92,18 @@ export const getListsByBoardIdTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await boardService.getListsByBoardId(id.trim());
-    const data = await response;
 
-    return {
-      content: [{ type: "text", text: JSON.stringify(data) }],
-    };
+    // on success, return the data
+    if (!response.error) {
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };
 
@@ -91,20 +118,27 @@ export const getCardsByBoardIdTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await boardService.getListsByBoardId(id.trim());
-    const data = await response;
-    const cards = data.map(async (list: any) => {
-      const listCards = await listService.getCardsByListId(list.id);
-      return listCards.map((card: any) => {
-        return {
-          id: card.id,
-          name: card.name,
-          description: card.desc,
-          url: card.url,
-        };
+    // on success, return the data
+    if (!response.error) {
+      const cards = response.data.map(async (list: any) => {
+        const listCards = await listService.getCardsByListId(list.id);
+        return listCards.map((card: any) => {
+          return {
+            id: card.id,
+            name: card.name,
+            description: card.desc,
+            url: card.url,
+          };
+        });
       });
-    });
-    return {
-      content: [{ type: "text", text: JSON.stringify(cards) }],
-    };
+      return {
+        content: [{ type: "text", text: JSON.stringify(cards) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
+      };
+    }
   },
 };

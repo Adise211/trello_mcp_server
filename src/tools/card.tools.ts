@@ -26,15 +26,15 @@ export const createCardTool = {
         color: label.color,
       })) || []
     );
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
       };
     } else {
+      // on error, return the error
       return {
-        content: [
-          { type: "text", text: JSON.stringify(response.data, null, 2) },
-        ],
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
   },
@@ -60,14 +60,17 @@ export const updateCardTool = {
         color: label.color,
       })) || []
     );
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
-    };
   },
 };
 
@@ -82,14 +85,17 @@ export const deleteCardTool = {
   },
   handler: async ({ id }: { id: string }) => {
     const response = await cardService.deleteCard(id.trim());
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
-    };
   },
 };
 
@@ -108,14 +114,17 @@ export const addCommentToCardTool = {
       id.trim(),
       comment.trim()
     );
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
-    };
   },
 };
 
@@ -139,14 +148,17 @@ export const addAttachmentToCardTool = {
       id.trim(),
       attachment
     );
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
-    return {
-      content: [{ type: "text", text: JSON.stringify(response.data, null, 2) }],
-    };
   },
 };
 
@@ -162,18 +174,16 @@ export const moveCardToListTool = {
   },
   handler: async ({ id, listId }: { id: string; listId: string }) => {
     const response = await cardService.moveCardToList(id.trim(), listId.trim());
-    if (response.error) {
+    // on success, return the data
+    if (!response.error) {
       return {
-        content: [{ type: "text", text: `Error: ${response.error}` }],
+        content: [{ type: "text", text: JSON.stringify(response.data) }],
+      };
+    } else {
+      // on error, return the error
+      return {
+        content: [{ type: "text", text: JSON.stringify(response.error) }],
       };
     }
-    return {
-      content: [
-        {
-          type: "text",
-          text: `✅ Card '${response.data.name}' moved to list ${response.data.idList}`,
-        },
-      ],
-    };
   },
 };
