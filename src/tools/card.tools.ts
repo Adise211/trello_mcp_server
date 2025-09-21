@@ -13,11 +13,18 @@ export const createCardTool = {
     description: "Create a Trello card",
     inputSchema: createCardSchema.shape,
   },
-  handler: async ({ name, listId, description, dueDate, labels }: any) => {
+  handler: async ({ name, listId, desc, dueDate, labels }: any) => {
+    console.log("create card tool input", {
+      name,
+      listId,
+      desc,
+      dueDate,
+      labels,
+    });
     const response = await cardService.createCard(
       listId.trim(),
-      name.trim(),
-      description.trim(),
+      name?.trim() || "",
+      desc?.trim() || "",
       dueDate?.trim() || "",
       labels?.map((label: CardLabel) => ({
         id: label.id,
@@ -47,11 +54,11 @@ export const updateCardTool = {
     description: "Update a Trello card",
     inputSchema: updateCardSchema.shape,
   },
-  handler: async ({ id, name, description, dueDate, labels }: any) => {
+  handler: async ({ id, name, desc, dueDate, labels }: any) => {
     const response = await cardService.updateCard(
       id.trim(),
-      name.trim(),
-      description.trim(),
+      name?.trim() || "",
+      desc?.trim() || "",
       dueDate?.trim() || "",
       labels?.map((label: CardLabel) => ({
         id: label.id,

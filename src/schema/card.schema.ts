@@ -22,7 +22,7 @@ export const cardLabelSchema = z.object({
 
 export const cardSchema = z.object({
   name: z.string().describe("The name of the card"),
-  description: z.string().describe("The description of the card"),
+  desc: z.string().describe("The description of the card"),
   dueDate: z.string().optional().describe("The due date of the card"),
   labels: z
     .array(cardLabelSchema)

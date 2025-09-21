@@ -75,26 +75,25 @@ export const getCardLabels = async (cardId: string): Promise<any> => {
 /**
  * Create a card
  * @param listId - The ID of the list to create the card on
- * @param cardName - The name of the card to create
- * @param cardDescription - The description of the card to create
- * @param cardDueDate - The due date of the card to create
- * @param cardLabels - The labels of the card to create
+ * @param name - The name of the card to create
+ * @param desc - The description of the card to create
+ * @param dueDate - The due date of the card to create
  * @param labels - The labels of the card to create
  * @returns {Promise<any>} - A promise that resolves to the created card
  */
 export const createCard = async (
   listId: string,
-  cardName: string,
-  cardDescription: string,
-  cardDueDate: string,
+  name: string,
+  desc: string,
+  dueDate: string,
   labels: CardLabel[]
 ): Promise<{ data?: any; error?: string }> => {
   try {
     const card = cardSchema.parse({
-      name: cardName,
-      desc: cardDescription,
-      dueDate: cardDueDate,
-      labels: labels,
+      name,
+      desc,
+      dueDate,
+      labels,
     });
     const response = await fetch(
       `${TRELLO_BASE_URL}/lists/${listId}/cards?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
@@ -106,13 +105,14 @@ export const createCard = async (
         body: JSON.stringify(card),
       }
     );
-
+    console.log("card service response", response);
     if (!response.ok) {
       const errorText = await response.text();
       return { error: `HTTP ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();
+    console.log("card service data", data);
     return { data };
   } catch (error) {
     return {
@@ -124,26 +124,26 @@ export const createCard = async (
 /**
  * Update a card
  * @param cardId - The ID of the card to update
- * @param cardName - The name of the card to update
- * @param cardDescription - The description of the card to update
- * @param cardDueDate - The due date of the card to update
+ * @param name - The name of the card to update
+ * @param desc - The description of the card to update
+ * @param dueDate - The due date of the card to update
  * @param labels - The labels of the card to update
  * @returns {Promise<any>} - A promise that resolves to the updated card
  */
 export const updateCard = async (
   cardId: string,
-  cardName: string,
-  cardDescription: string,
-  cardDueDate: string,
+  name: string,
+  desc: string,
+  dueDate: string,
   labels: CardLabel[]
 ): Promise<any> => {
   try {
     const card = updateCardSchema.parse({
       id: cardId,
-      name: cardName,
-      desc: cardDescription,
-      dueDate: cardDueDate,
-      labels: labels,
+      name,
+      desc,
+      dueDate,
+      labels,
     });
     const response = await fetch(
       `${TRELLO_BASE_URL}/cards/${cardId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
