@@ -47,18 +47,12 @@ export const updateCardTool = {
     description: "Update a Trello card",
     inputSchema: updateCardSchema.shape,
   },
-  handler: async ({ id, name, desc, due, labels }: any) => {
+  handler: async ({ id, name, desc, due }: any) => {
     const response = await cardService.updateCard(
       id.trim(),
       name?.trim() || "",
       desc?.trim() || "",
-      due?.trim() || "",
-      labels?.map((label: CardLabel) => ({
-        id: label.id,
-        idBoard: label.idBoard,
-        name: label.name,
-        color: label.color,
-      })) || []
+      due?.trim() || ""
     );
     // on success, return the data
     if (!response.error) {
@@ -106,13 +100,13 @@ export const addCommentToCardTool = {
     description: "Add a comment to a Trello card",
     inputSchema: {
       id: z.string().describe("The id of the card to add a comment to"),
-      comment: z.string().describe("The comment to add to the card"),
+      text: z.string().describe("The comment to add to the card"),
     },
   },
-  handler: async ({ id, comment }: { id: string; comment: string }) => {
+  handler: async ({ id, text }: { id: string; text: string }) => {
     const response = await cardService.addCommentToCard(
       id.trim(),
-      comment.trim()
+      text?.trim() || ""
     );
     // on success, return the data
     if (!response.error) {

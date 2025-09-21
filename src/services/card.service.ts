@@ -132,8 +132,7 @@ export const updateCard = async (
   cardId: string,
   name: string,
   desc: string,
-  due: string,
-  labels: CardLabel[]
+  due: string
 ): Promise<any> => {
   try {
     const card = updateCardSchema.parse({
@@ -141,7 +140,6 @@ export const updateCard = async (
       name,
       desc,
       due,
-      labels,
     });
     const response = await fetch(
       `${TRELLO_BASE_URL}/cards/${cardId}?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
@@ -162,19 +160,18 @@ export const updateCard = async (
 /**
  * Add a comment to a card
  * @param cardId - The ID of the card to add a comment to
- * @param comment - The comment to add to the card
+ * @param text - The comment to add to the card
  * @returns {Promise<any>} - A promise that resolves to the added comment
  */
 export const addCommentToCard = async (
   cardId: string,
-  comment: string
+  text: string
 ): Promise<any> => {
   try {
     const response = await fetch(
-      `${TRELLO_BASE_URL}/cards/${cardId}/actions/comments?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      `${TRELLO_BASE_URL}/cards/${cardId}/actions/comments?text=${text}&key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
       {
         method: "POST",
-        body: JSON.stringify({ text: comment }),
       }
     );
     if (!response.ok) {
