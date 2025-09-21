@@ -92,7 +92,7 @@ export const createCard = async (
   try {
     const card = cardSchema.parse({
       name: cardName,
-      description: cardDescription,
+      desc: cardDescription,
       dueDate: cardDueDate,
       labels: labels,
     });
@@ -141,7 +141,7 @@ export const updateCard = async (
     const card = updateCardSchema.parse({
       id: cardId,
       name: cardName,
-      description: cardDescription,
+      desc: cardDescription,
       dueDate: cardDueDate,
       labels: labels,
     });
