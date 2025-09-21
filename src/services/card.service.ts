@@ -224,10 +224,9 @@ export const moveCardToList = async (
 ): Promise<any> => {
   try {
     const response = await fetch(
-      `${TRELLO_BASE_URL}/cards/${cardId}/lists?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
+      `${TRELLO_BASE_URL}/cards/${cardId}?idList=${listId}&key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}`,
       {
         method: "PUT",
-        body: JSON.stringify({ listId }),
       }
     );
     if (!response.ok) {
