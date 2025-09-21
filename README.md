@@ -2,30 +2,6 @@
 
 A Model Context Protocol (MCP) server that provides AI assistants with access to Trello's functionality. This server enables AI models to interact with Trello boards, lists, and cards programmatically.
 
-## Features
-
-### Board Management
-
-- **Get All Boards** - Retrieve all boards for the current user
-- **Get Board by Name** - Find a specific board by its name
-- **Get Board by ID** - Retrieve board details using the board ID
-- **Get Lists by Board ID** - Get all lists within a specific board
-- **Get Cards by Board ID** - Retrieve all cards from a specific board
-
-### List Management
-
-- **Get List by ID** - Get details of a specific list
-- **Get Cards by List ID** - Retrieve all cards within a specific list
-
-### Card Management
-
-- **Create Card** - Create new cards with name, description, due date, and labels
-- **Update Card** - Modify existing card properties
-- **Delete Card** - Remove cards from boards
-- **Add Comment to Card** - Add comments to existing cards
-- **Add Attachment to Card** - Attach files to cards
-- **Move Card to List** - Move cards between different lists
-
 ## Prerequisites
 
 - Node.js >= 18.0.0
@@ -122,22 +98,6 @@ Once configured in your MCP client (Cursor or Claude Desktop), the Trello MCP se
 - "Move the 'Fix bug' card to the 'In Progress' list"
 - "Add a comment to card XYZ"
 
-### Development Mode
-
-For development with auto-reload:
-
-```bash
-npm run dev
-```
-
-### Testing
-
-Run the test suite:
-
-```bash
-npm test
-```
-
 ### Using with MCP Inspector
 
 To inspect and test the MCP server:
@@ -199,39 +159,6 @@ The MCP server enables AI assistants to help with:
 - **Task management**: Creating, updating, and organizing cards
 - **Team collaboration**: Adding comments and managing card assignments
 - **Board organization**: Structuring lists and managing board content
-
-## Development
-
-### Project Structure
-
-```
-src/
-├── schema/          # Zod schemas for validation
-├── services/        # Business logic for Trello API calls
-├── tools/           # MCP tool definitions
-├── utils/           # Utility functions and logging
-└── tests/           # Test files and mocks
-```
-
-### Available Scripts
-
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Start the compiled server
-- `npm run dev` - Start development server with auto-reload
-- `npm test` - Run the test suite
-- `npm run lint` - Check code for linting issues
-- `npm run lint:fix` - Fix linting issues automatically
-- `npm run clean` - Remove compiled files
-- `npm run watch` - Watch for changes and recompile
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
 
 ## Limitations
 
