@@ -2,12 +2,12 @@
   "name": "trello-mcp-server",
   "version": "1.0.0",
   "description": "A Node.js + TypeScript project",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/index.js",
     "test": "vitest",
-    "dev": "ts-node src/server.ts",
+    "dev": "ts-node src/index.ts",
     "watch": "tsc --watch",
     "clean": "rm -rf dist",
     "lint": "eslint src/**/*.ts",
@@ -35,6 +35,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.1",
     "dotenv": "^17.2.2",
+    "winston": "^3.17.0",
     "zod": "^3.25.76"
   },
   "engines": {
