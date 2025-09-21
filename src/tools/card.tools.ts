@@ -14,13 +14,6 @@ export const createCardTool = {
     inputSchema: createCardSchema.shape,
   },
   handler: async ({ name, listId, desc, dueDate, labels }: any) => {
-    console.log("create card tool input", {
-      name,
-      listId,
-      desc,
-      dueDate,
-      labels,
-    });
     const response = await cardService.createCard(
       listId.trim(),
       name?.trim() || "",

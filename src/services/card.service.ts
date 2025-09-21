@@ -105,14 +105,12 @@ export const createCard = async (
         body: JSON.stringify(card),
       }
     );
-    console.log("card service response", response);
     if (!response.ok) {
       const errorText = await response.text();
       return { error: `HTTP ${response.status}: ${errorText}` };
     }
 
     const data = await response.json();
-    console.log("card service data", data);
     return { data };
   } catch (error) {
     return {
