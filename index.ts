@@ -1,3 +1,8 @@
+// Load environment variables FIRST, before importing any other modules
+import * as dotenv from "dotenv";
+// quiet: true to avoid logging to stdout
+dotenv.config({ quiet: true });
+
 import { startServer } from "./src/server";
 import { logger } from "./src/utils/logger";
 
