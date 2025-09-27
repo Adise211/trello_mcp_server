@@ -3,6 +3,12 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { logger } from "../utils/logger";
 import { server } from "../server";
 import crypto from "node:crypto";
+import {
+  JSONRPC_ERROR_CODES,
+  JSONRPC_ERROR_MESSAGES,
+  JSONRPC_VERSION,
+} from "../utils/consts";
+import { RemoteResponse } from "../schema/remote.schema";
 
 const PORT = 3000;
 const app = express();
@@ -24,11 +30,14 @@ app.post("/mcp", (req, res) => {
   } catch (error) {
     logger.error("Error handling MCP request:", error);
     if (!res.headersSent) {
-      res.status(500).json({
-        jsonrpc: "2.0",
-        error: { code: -32603, message: "Internal server error" },
-        id: null,
-      });
+      const response: RemoteResponse = {
+        jsonrpc: JSONRPC_VERSION,
+        error: {
+          code: JSONRPC_ERROR_CODES.InternalError,
+          message: JSONRPC_ERROR_MESSAGES.InternalError,
+        },
+      };
+      res.status(500).json(response);
     }
   }
 });
