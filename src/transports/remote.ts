@@ -10,7 +10,7 @@ import {
 } from "../utils/consts";
 import { RemoteResponse } from "../schema/remote.schema";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 
