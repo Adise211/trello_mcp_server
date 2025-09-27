@@ -27,7 +27,7 @@ export const getBoardsTool = {
     } else {
       // on error, return the error
       return {
-        content: [{ type: "text", text: JSON.stringify(response.error) }],
+        content: [{ type: "text", text: response.error }],
       };
     }
   },
