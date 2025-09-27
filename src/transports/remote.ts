@@ -42,6 +42,10 @@ app.post("/mcp", (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Trello MCP server!");
+});
+
 app.listen(PORT, async () => {
   logger.info(`🚀 MCP server started remotely on port ${PORT}!`);
 });
